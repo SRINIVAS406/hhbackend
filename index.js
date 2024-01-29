@@ -219,6 +219,6 @@ app.post('/logout', (req, res) => {
     res.json({ message: 'Logout successful' });
 });
 
-app.listen(5173, () => {
-    console.log("Server listening on http://127.0.0.1:3001");
+app.listen(10000, () => {
+    console.log("Server listening on http://127.0.0.1:10000");
 });
