@@ -20,7 +20,9 @@ db.once('open', () => {
 });
 // Secret key for JWT
 const secretKey = 'sritest';
-
+app.get('/', (req, res) => {
+    res.send('Hello, World!');
+  });
 app.post('/register', (req, res) => {
     const { email, password } = req.body;
 
