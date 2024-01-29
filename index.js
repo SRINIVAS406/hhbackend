@@ -9,7 +9,15 @@ app.use(express.json());
 app.use(cors());
 
 mongoose.connect('mongodb+srv://sri:sri@hhdev.amtukyd.mongodb.net/?retryWrites=true&w=majority');
+const db = mongoose.connection;
 
+db.on('error', (err) => {
+  console.error('Mongoose connection error:', err);
+});
+
+db.once('open', () => {
+  console.log('Connected to MongoDB');
+});
 // Secret key for JWT
 const secretKey = 'sritest';
 
@@ -219,6 +227,6 @@ app.post('/logout', (req, res) => {
     res.json({ message: 'Logout successful' });
 });
 
-app.listen(10000,'0.0.0.0', () => {
-    console.log("Server listening on http://0.0.0.0:10000");
+app.listen('3001', () => {
+    console.log("Server listening on http://0.0.0.0:3001");
 });
