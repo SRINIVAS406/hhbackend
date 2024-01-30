@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const FormDataModel = require('./models/FormData');
 const jwt = require('jsonwebtoken');
+const cors = require('cors');
 
 const app = express();
 app.use(express.json());
@@ -14,6 +15,14 @@ const db = mongoose.connection;
 db.on('error', (err) => {
   console.error('Mongoose connection error:', err);
 });
+
+const corsOptions = {
+    origin: 'http://your-allowed-origin.com',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true, // enable set cookie
+  };
+
+app.use(cors(corsOptions));
 
 db.once('open', () => {
   console.log('Connected to MongoDB');
@@ -121,9 +130,14 @@ app.get('/getTreeUsers', (req, res) => {
         if(decoded.email){
             FormDataModel.find({})
             .then(users => {
-                
                 var ur = users.find(u => u._id+'' == decoded._id);
-                let userlistobj = {name:ur.name,children:[]};
+                let userlistobj = {name:ur.name,children:[],
+                    email: ur.email,
+                    job:ur.job,
+                    companyname:ur.companyname,
+                    skill:ur.skill,
+                    about:ur.about
+                };
                 if(ur.parentId && ur.parentId!='root'){
                     rec([ur.parentId], userlistobj, users, ur._id+'')
                 }
@@ -146,7 +160,12 @@ function rec(childrens, userRecObj, users, skipuser){
         for(let child in childrens){
             if(childrens[child] != skipuser){
                 var ur = users.find(u => (u._id+'' == childrens[child]));
-                let tempOjb = {name:'srinivas',children:[]};
+                let tempOjb = {name:'srinivas',children:[],
+                email: ur.email,
+                job:ur.job,
+                companyname:ur.companyname,
+                skill:ur.skill,
+                about:ur.about};
                 tempOjb.name = ur.name;
                 userRecObj.children.push(tempOjb)
                 if(ur.child ){
@@ -230,5 +249,5 @@ app.post('/logout', (req, res) => {
 });
 
 app.listen('3001', () => {
-    console.log("Server listening on http://0.0.0.0:3001");
+    console.log("Server ddsa listening on http://0.0.0.0:3001");
 });
