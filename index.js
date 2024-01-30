@@ -17,7 +17,7 @@ db.on('error', (err) => {
 });
 
 const corsOptions = {
-    origin: 'http://your-allowed-origin.com',
+    origin: '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true, // enable set cookie
   };
