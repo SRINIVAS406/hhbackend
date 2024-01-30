@@ -1,9 +1,8 @@
-const cors = require('cors');
 const express = require('express');
 const mongoose = require('mongoose');
 const FormDataModel = require('./models/FormData');
 const jwt = require('jsonwebtoken');
-const cors = require('cors');
+
 
 const app = express();
 app.use(express.json());
@@ -16,11 +15,14 @@ db.on('error', (err) => {
   console.error('Mongoose connection error:', err);
 });
 
+const cors = require('cors');
+
+// Use cors in your application
 const corsOptions = {
-    origin: '*',
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true, // enable set cookie
-  };
+  origin: '*',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+};
 
 app.use(cors(corsOptions));
 
