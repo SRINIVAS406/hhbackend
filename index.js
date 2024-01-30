@@ -19,7 +19,7 @@ const cors = require('cors');
 
 // Use cors in your application
 const corsOptions = {
-  origin: 'https://hhfrontend.vercel.app',
+  origin: '*',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
 };
@@ -32,7 +32,33 @@ db.once('open', () => {
 // Secret key for JWT
 const secretKey = 'sritest';
 app.get('/', (req, res) => {
-    res.send('Hello, World!');
+    const { email, password } = req.body;
+
+    FormDataModel.findOne({ email: email })
+        .then(user => {
+            if (user) {
+                res.json("Already registered");
+            } else {
+                FormDataModel.create(req.body)
+                    .then((userobj) => {
+                        FormDataModel.updateOne({ _id: userobj.parentId }, { $push: { child: userobj._id+'' } })
+                            .then(result => {
+                                console.log('-----',result);
+                                if (result.modifiedCount > 0) {
+                                    // If at least one document is modified, consider it a success
+                                    console.log(`User with email ${email} has been updated.`);
+                                    res.json({ message: 'User updated successfully' });
+                                } else {
+                                    // If no document is modified, the user might not exist
+                                    res.status(404).json({ error: 'User not found or no changes applied' });
+                                }
+                            })
+                            .catch(err => res.status(500).json({ error: 'Internal Server Error' }));
+                        
+                    })
+                    .catch(err => res.json(err));
+            }
+        });
   });
 app.post('/register', (req, res) => {
     const { email, password } = req.body;
