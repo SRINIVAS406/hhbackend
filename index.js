@@ -19,7 +19,7 @@ const cors = require('cors');
 
 // Use cors in your application
 const corsOptions = {
-  origin: '*',
+  origin: 'https://hhfrontend.vercel.app',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
 };
