@@ -99,16 +99,21 @@ app.post('/login', (req, res) => {
             if (user) {
                 if (user.password === password) {
                     // Generate a JWT token upon successful authentication
+                    console.log('Correct Password...');
                     const token = jwt.sign({ name:user.name, email: user.email, _id:user._id }, secretKey, { expiresIn: '30m' });
                     res.json({ token });
                 } else {
+                    console.log('Wrong password');
                     res.json("Wrong password");
                 }
             } else {
+                console.log('No records found!');
                 res.json("No records found!");
             }
         })
-        .catch(err => res.json(err));
+        .catch(err => {
+            console.log('Login Error:',err);
+            res.json(err);});
 });
 
 // Protected route example
