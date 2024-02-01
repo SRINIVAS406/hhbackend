@@ -144,7 +144,7 @@ app.get('/authonticate', (req, res) => {
 });
 
 app.get('/users', (req, res) => {
-    FormDataModel.find({}, 'name email')
+    FormDataModel.find({}, 'name job password email')
         .then(users => {
             res.json(users);
         })
