@@ -9,9 +9,10 @@ const FormDataSchema = new mongoose.Schema({
     companyname:String,
     parentId:String,
     skill:String,
-    about:String
+    about:String,
+    active:{ type: Boolean, default: false }
 })
 
-const FormDataModel = mongoose.model('log_reg_form', FormDataSchema);
+const FormDataModel = mongoose.model('hhusers', FormDataSchema);
 
 module.exports = FormDataModel;
